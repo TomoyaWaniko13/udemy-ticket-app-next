@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <ThemeProvider attribute='class' defaultTheme='darks' enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
           <nav className={'flex flex-row justify-center border-b'}>
             <div className={'max-w-6xl w-full'}>
               <MainNav />
