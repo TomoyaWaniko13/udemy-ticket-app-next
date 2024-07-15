@@ -1,11 +1,14 @@
 import prisma from '@/prisma/db';
+import TicketsDataTable from '@/app/tickets/TicketsDataTable';
 
 const TicketsPage = async () => {
   const tickets = await prisma.ticket.findMany();
 
-  console.log(tickets);
-
-  return <>tickets</>;
+  return (
+    <div>
+      <TicketsDataTable tickets={tickets} />
+    </div>
+  );
 };
 
 export default TicketsPage;
