@@ -20,12 +20,12 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
-          <nav className={'flex flex-row justify-center border-b py-2'}>
+          <nav className={'flex flex-row justify-center border-b p-4'}>
             <div className={'max-w-6xl w-full'}>
               <MainNav />
             </div>
           </nav>
-          <main className={'flex flex-col items-center py-2'}>
+          <main className={'flex flex-col items-center p-4'}>
             <div className={'max-w-6xl w-full'}>{children}</div>
           </main>
         </ThemeProvider>

@@ -3,6 +3,7 @@ import { ticketSchema } from '@/ValidationSchemas/ticket';
 import prisma from '@/prisma/db';
 
 export async function POST(request: NextRequest) {
+  // taking JSON as input and parsing it to produce a JavaScript object
   const body = await request.json();
   const validation = ticketSchema.safeParse(body);
 
