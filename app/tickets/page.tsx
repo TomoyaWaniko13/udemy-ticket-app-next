@@ -4,21 +4,24 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Pagination from '@/components/Pagination';
 import StatusFilter from '@/components/StatusFilter';
-import { Status } from '@prisma/client';
+import { Status, Ticket } from '@prisma/client';
 
-interface PageProps {
-  searchParams: { status: Status; page: string };
+export interface SearchParams {
+  status: Status;
+  page: string;
+  orderBy: keyof Ticket;
 }
 
-const TicketsPage = async (props: PageProps) => {
-  const { searchParams } = props;
-
+const TicketsPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const pageSize = 10;
   const page = parseInt(searchParams.page) || 1;
   const ticketCount = await prisma.ticket.count();
 
+  const orderBy = searchParams.orderBy ? searchParams.orderBy : 'createdAt';
+
   // OPEN, STARTED, CLOSED
   const statuses = Object.values(Status);
+  // statusesの中にsearchParams.statusの値があるか確認
   const status = statuses.includes(searchParams.status) ? searchParams.status : undefined;
 
   let where = {};
@@ -31,6 +34,7 @@ const TicketsPage = async (props: PageProps) => {
 
   const tickets = await prisma.ticket.findMany({
     where,
+    orderBy: { [orderBy]: 'desc' },
     take: pageSize,
     skip: (page - 1) * pageSize,
   });
@@ -43,7 +47,7 @@ const TicketsPage = async (props: PageProps) => {
         </Button>
         <StatusFilter />
       </div>
-      <TicketsDataTable tickets={tickets} />
+      <TicketsDataTable tickets={tickets} searchParams={searchParams} />
       <Pagination itemCount={ticketCount} pageSize={pageSize} currentPage={page} />
     </>
   );
