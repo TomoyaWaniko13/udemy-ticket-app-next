@@ -8,6 +8,7 @@ export async function POST(request: NextRequest) {
   const validation = ticketSchema.safeParse(body);
 
   if (!validation.success) {
+    // https://zod.dev/?id=error-formatting
     return NextResponse.json(validation.error.format(), { status: 400 });
   }
 
