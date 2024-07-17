@@ -23,9 +23,13 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     return NextResponse.json({ error: 'User Not Found' }, { status: 404 });
   }
 
-  if (body?.password) {
-    const hashPassword = await bcrypt.hash(body.password, 10);
-    body.password = hashPassword;
+  if (body?.password && body.password != '') {
+    // 新しいパスワードが提供された場合、セキュリティのためにハッシュ化して保存します。
+    body.password = await bcrypt.hash(body.password, 10);
+  } else {
+    // パスワードが提供されていない、または空の場合、password fieldをdeleteして、
+    // 後続の処理（例：データベース更新）でpassword fieldが不要に更新されることを防ぎます。
+    delete body.password;
   }
 
   if (user.username !== body.username) {
