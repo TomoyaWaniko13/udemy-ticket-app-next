@@ -14,7 +14,9 @@ const EditUserPage = async ({ params }: Props) => {
     return <p className={'text-destructive'}>User Not Found.</p>;
   }
 
+  // パスワードの実際の値をクライアントサイドに送信しないようにする。
   user.password = '';
+
   return <UserForm user={user}></UserForm>;
 };
 
